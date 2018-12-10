@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syj.oamanager.mapper.StaffMapper">
+  <resultMap id="BaseResultMap" type="com.syj.oamanager.entity.Staff">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="salary" jdbcType="INTEGER" property="salary" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="admin" jdbcType="VARCHAR" property="admin" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, password, name, sex, phone, email, salary, position, department, admin
+  </sql>
+  <sql id="show_List">
+    id, name, sex, phone, email, salary, position, department, admin
+  </sql>
+  <select id="selectallStaff" parameterType="String" resultMap="BaseResultMap">
+  select 
+  <include refid="show_List" />
+  from staff
+  <where>
+  <trim suffixOverrides="and">
+  <if test="id != null">
+  and id = #{id}
+  </if>
+  <if test="name != null">
+  and name = #{name}
+  </if>
+  <if test="sex != null">
+  and sex = #{sex}
+  </if>
+  <if test="department != null">
+  and department = #{department}
+  </if>
+  </trim>
+  </where>
+  <if test="page != null">
+  limit #{page},#{rows}
+  </if>
+  <if test="page == null">
+  limit 0,10
+  </if>
+  </select>
+  <select id="selectnumber" parameterType="String" resultType="int">
+  select count(1) as geshu from staff
+  <where>
+  <trim suffixOverrides="and">
+  <if test="id != null">
+  and id = #{id}
+  </if>
+  <if test="name != null">
+  and name = #{name}
+  </if>
+  <if test="sex != null">
+  and sex = #{sex}
+  </if>
+  <if test="department != null">
+  and department = #{department}
+  </if>
+  </trim>
+  </where>
+  </select>
+  <select id="selectLonginStaff" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from staff
+    where id = #{id,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from staff
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from staff
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.syj.oamanager.entity.Staff">
+    insert into staff (id, password, name, 
+      sex, phone, email, 
+      salary, position, department, 
+      admin)
+    values (#{id,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{salary,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+      #{admin,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.syj.oamanager.entity.Staff">
+    insert into staff
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="salary != null">
+        salary,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="admin != null">
+        admin,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        #{salary,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="admin != null">
+        #{admin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.syj.oamanager.entity.Staff">
+    update staff
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        salary = #{salary,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="admin != null">
+        admin = #{admin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.syj.oamanager.entity.Staff">
+    update staff
+    set password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=INTEGER},
+      position = #{position,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      admin = #{admin,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
